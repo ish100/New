@@ -1,0 +1,41 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+	<meta charset="utf-8" />
+	<title>My App</title>
+	<base href="" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" style="color: #fff" href="#">ISHA'S APP</a>
+			</div>
+			<ul class="nav navbar-nav" style="flex-direction: row">
+				<li><a href="#">Home</a></li>
+			</ul>
+		</div>
+	</nav>
+ 	<div class="container" ng-view></div>
+
+	<!-- ### JavaScript Modules. ### -->
+
+	<!-- Load vendor scripts. -->
+	<script async defer src="https://apis.google.com/js/api.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular-route.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular-resource.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Load AngularJS application module. -->
+	<script type="text/javascript" src="/js/main.js"></script>
+
+	<!-- Load Controllers. -->
+	<script type="text/javascript" src="/js/controllers/home/homeController.js"></script>
+
+</body>
+</html>
