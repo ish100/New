@@ -2,9 +2,9 @@ var app = angular.module("myApp", [
     'ngRoute',
     'ui.bootstrap',
     'homeController',
-    'surveyController',
     'loginController',
-    'registerController'
+    'registerController',
+    'surveyController'
 ]);
 
 app.config(['$locationProvider', function($locationProvider) {
