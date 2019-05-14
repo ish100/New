@@ -5,17 +5,14 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 	var json = {
 	    title: "American History",
 	    showProgressBar: "bottom",
-	    showTimerPanel: "top",
-	    maxTimeToFinishPage: 10,
-	    maxTimeToFinish: 25,
 	    firstPageIsStarted: true,
-	    startSurveyText: "Start Quiz",
+	    startSurveyText: "Start Survey",
 	    pages: [
 	        {
 	            questions: [
 	                {
 	                    type: "html",
-	                    html: "You are about to start quiz by history. <br/>You have 10 seconds for every page and 25 seconds for the whole survey of 3 questions.<br/>Please click on <b>'Start Quiz'</b> button when you are ready."
+	                    html: "You are about to start the survey of 3 questions.<br/>Please click on <b>'Start Survey'</b> button when you are ready."
 	                }
 	            ]
 	        }, {
@@ -44,7 +41,6 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 	                }
 	            ]
 	        }, {
-	            maxTimeToFinish: 15,
 	            questions: [
 	                {
 	                    type: "radiogroup",
@@ -59,29 +55,17 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 	            ]
 	        }
 	    ],
-	    completedHtml: "<h4>You have answered correctly <b>{correctedAnswers}</b> questions from <b>{questionCount}</b>.</h4>"
+	    completedHtml: "<h4>Thank you for taking the survey. <br><br>Redirecting to results..</h4>"
 	};
 
 	window.survey = new Survey.Model(json);
 
-	survey
-	    .onComplete
-	    .add(function (result) {
-	        document
-	            .querySelector('#surveyResult')
-	            .innerHTML = "result: " + JSON.stringify(result.data);
-	    });
-	    
-	document.addEventListener('DOMContentLoaded', function () {
-	    ng
-	        .platformBrowserDynamic
-	        .bootstrap(HelloApp);
-	});
+	survey.onComplete.add(function (result) {
+        document.querySelector('#surveyResult').innerHTML = "result: " + JSON.stringify(result.data);
+    });
 
 	$scope.surveyInit = function(scope) {
-		Survey
-	        .SurveyNG
-	        .render("surveyElement", {model: survey});
+		Survey.SurveyNG.render("surveyElement", {model: survey});
 	}
 
 }]);
