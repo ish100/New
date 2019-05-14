@@ -2,7 +2,8 @@ var app = angular.module("myApp", [
     'ngRoute',
     'ui.bootstrap',
     'homeController',
-    'surveyController'
+    'surveyController',
+    'loginController'
 ]);
 
 app.config(['$locationProvider', function($locationProvider) {
@@ -19,6 +20,10 @@ app.config(['$routeProvider',
         when('/home', {
             templateUrl: 'html/home.html',
             controller: 'homeCtrl'
+        }).
+        when('/login', {
+            templateUrl: 'html/login.html',
+            controller: 'loginCtrl'
         }).
         when('/survey', {
             templateUrl: 'html/survey.html',

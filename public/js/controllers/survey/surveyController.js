@@ -3,7 +3,7 @@ var surveyController = angular.module("surveyController", []);
 surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 
 	var json = {
-	    title: "American History",
+	    title: "Trip Preferences",
 	    showProgressBar: "bottom",
 	    firstPageIsStarted: true,
 	    startSurveyText: "Start Survey",
@@ -12,7 +12,7 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 	            questions: [
 	                {
 	                    type: "html",
-	                    html: "You are about to start the survey of 3 questions.<br/>Please click on <b>'Start Survey'</b> button when you are ready."
+	                    html: "You are about to start the survey of 4 questions.<br/>Please click on <b>'Start Survey'</b> button when you are ready."
 	                }
 	            ]
 	        }, {
@@ -53,6 +53,46 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 	                    correctAnswer: "The foundation of the British parliamentary system"
 	                }
 	            ]
+	        },  {
+	        	questions: [
+	        		{
+			            type: "multipletext",
+			            name: "pricelimit",
+			            title: "Budget ",
+			            isRequired: true,
+			            colCount: 2,
+			            "validators": [
+			                {
+			                    "type": "expression",
+			                    "expression": "{pricelimit.leastamount} <= {pricelimit.mostamount}",
+			                    "text": "Please correct the price. The first value should be less or equal to the second one."
+			                }
+			            ],
+			            items: [
+			                {
+			                    name: "leastamount",
+			                    title: "The least amount for the trip",
+			                    validators: [
+			                        {
+			                            type: "numeric",
+			                            minValue: 10,
+			                            maxValue: 10000
+			                        }
+			                    ]
+			                }, {
+			                    name: "mostamount",
+			                    title: "The most amountfor the trip",
+			                    validators: [
+			                        {
+			                            type: "numeric",
+			                            minValue: 10,
+			                            maxValue: 10000
+			                        }
+			                    ]
+			                }
+			            ]
+			        }
+	        	]
 	        }
 	    ],
 	    completedHtml: "<h4>Thank you for taking the survey. <br><br>Redirecting to results..</h4>"
