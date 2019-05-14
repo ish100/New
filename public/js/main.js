@@ -1,7 +1,6 @@
 var app = angular.module("myApp", [
     'ngRoute',
     'ui.bootstrap',
-    'ui.tree',
     'homeController'
 ]);
 
