@@ -1,7 +1,8 @@
 var app = angular.module("myApp", [
     'ngRoute',
     'ui.bootstrap',
-    'homeController'
+    'homeController',
+    'surveyController'
 ]);
 
 app.config(['$locationProvider', function($locationProvider) {
@@ -18,6 +19,10 @@ app.config(['$routeProvider',
         when('/home', {
             templateUrl: 'html/home.html',
             controller: 'homeCtrl'
+        }).
+        when('/survey', {
+            templateUrl: 'html/survey.html',
+            controller: 'surveyCtrl'
         }).
         otherwise({
             redirectTo: '/home'
