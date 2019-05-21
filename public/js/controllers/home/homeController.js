@@ -2,6 +2,7 @@ var homeController = angular.module("homeController", []);
 
 homeController.controller('homeCtrl', ['$scope', function($scope) {
     $scope.loginBtn = "Log In";
+    $scope.registerBtn = "Register";
     $scope.surveyBtn = "Take Survey";
     $scope.userNeedsLogin = false;
 
@@ -14,5 +15,12 @@ homeController.controller('homeCtrl', ['$scope', function($scope) {
         console.log("login attempt");
         window.location.href = "/#/survey";
     }
+
+    $scope.userRegister = function() {
+        console.log("register attempt");
+        window.location.href = "/#/register";
+    }
+
+    $scope.registerBtn
 
 }]);

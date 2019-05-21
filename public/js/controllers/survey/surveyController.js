@@ -19,45 +19,45 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 	            questions: [
 	                {
 	                    type: "radiogroup",
-	                    name: "civilwar",
-	                    title: "When was the Civil War?",
+	                    name: "company",
+	                    title: "How would you like to travel?",
 	                    choices: [
-	                        "1750-1800", "1800-1850", "1850-1900", "1900-1950", "after 1950"
+	                        "Solo", "Family", "Friends"
 	                    ],
-	                    correctAnswer: "1850-1900"
+	                    isRequired: true
 	                }
 	            ]
 	        }, {
 	            questions: [
 	                {
 	                    type: "radiogroup",
-	                    name: "libertyordeath",
-	                    title: "Who said 'Give me liberty or give me death?'",
+	                    name: "kind",
+	                    title: "What type of place do you prefer ?",
 	                    choicesOrder: "random",
 	                    choices: [
-	                        "John Hancock", "James Madison", "Patrick Henry", "Samuel Adams"
+	                        "Mountains", "Plains", "Beaches", "Religious"
 	                    ],
-	                    correctAnswer: "Patrick Henry"
+	                    isRequired: true
 	                }
 	            ]
 	        }, {
 	            questions: [
 	                {
 	                    type: "radiogroup",
-	                    name: "magnacarta",
-	                    title: "What is the Magna Carta?",
+	                    name: "season",
+	                    title: "When would you like to travel?",
 	                    choicesOrder: "random",
 	                    choices: [
-	                        "The foundation of the British parliamentary system", "The Great Seal of the monarchs of England", "The French Declaration of the Rights of Man", "The charter signed by the Pilgrims on the Mayflower"
+	                        "Summer", "Winter", "Monsoon"
 	                    ],
-	                    correctAnswer: "The foundation of the British parliamentary system"
+	                    isRequired: true
 	                }
 	            ]
 	        },  {
 	        	questions: [
 	        		{
 			            type: "multipletext",
-			            name: "pricelimit",
+			            name: "priceLimit",
 			            title: "Budget ",
 			            isRequired: true,
 			            colCount: 2,
@@ -70,8 +70,8 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 			            ],
 			            items: [
 			                {
-			                    name: "leastamount",
-			                    title: "The least amount for the trip",
+			                    name: "leastAmount",
+			                    title: "The least amount per day",
 			                    validators: [
 			                        {
 			                            type: "numeric",
@@ -80,8 +80,8 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 			                        }
 			                    ]
 			                }, {
-			                    name: "mostamount",
-			                    title: "The most amountfor the trip",
+			                    name: "mostAmount",
+			                    title: "The most amount per day",
 			                    validators: [
 			                        {
 			                            type: "numeric",
@@ -95,16 +95,40 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 	        	]
 	        }
 	    ],
-	    completedHtml: "<h4>Thank you for taking the survey. <br><br>Redirecting to results..</h4>"
+	    completedHtml: "<h4>Thank you for taking the survey.</h4>"
 	};
 
 	window.survey = new Survey.Model(json);
 
-	survey.onComplete.add(function (result) {
-        document.querySelector('#surveyResult').innerHTML = "result: " + JSON.stringify(result.data);
+	survey.onComplete.add(function (query) {
+        $('#survey-message').html("Searching for: " + JSON.stringify(query.data));
+		var req_data = Object.assign({}, query.data);
+		$.get("results/", req_data, function (data) {
+			$('#survey-message').html("<h2>Found " + data.length + " result(s)</h2>");
+			$('#survey-result').removeClass("hidden").addClass("shown");
+			
+			$("body").append('<div id="template-result"></div>');
+			$("#template-result").load("../../html/resultTpl.html", function() {
+				var template = $(this).html();
+				$.each(data, function(item) {
+					var output = Mustache.render(template, data[item]);
+					$("#survey-result").append(output);
+		        });
+			});
+			$("#template-result").remove();
+        });
     });
 
 	$scope.surveyInit = function(scope) {
+		survey.data = {
+		    company: 'Solo',
+		    kind: 'Mountains',
+		    season: 'Summer',
+		    priceLimit : {
+		    	'leastAmount' : 200,
+		    	'mostAmount' : 700
+		    }
+		};
 		Survey.SurveyNG.render("surveyElement", {model: survey});
 	}
 
