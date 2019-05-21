@@ -10,7 +10,7 @@ var resultsRouter = require('./routes/results');
 
 var app = express();
 
-const RedisClient = require('./src/redisclient');
+const RedisClient = require('./src/redisClient');
 rClient = new RedisClient();
 
 const AppController = require('./src/appController');
