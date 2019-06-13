@@ -11,4 +11,14 @@ router.post('/register', async function(req, res, next) {
 	});
 });
 
+router.post('/isAuth', async function(req, res, next) {
+	var body = req.body;
+	appController.isUserAvailable(body).then((isUser) => {
+		res.send({
+			status: isUser ? "AUTHED" : "UNAUTHED"
+		});
+	});
+});
+
+
 module.exports = router;

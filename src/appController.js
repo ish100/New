@@ -55,6 +55,23 @@ class AppController {
             });
         }); 
     }
+
+    isUserAvailable(userattempt) {
+        var THIS = this;
+        return new Promise((resolve, reject) => {
+            rClient.getKey(ENTITES.USERS).then((data) => {
+                if (data) {
+                    var users = JSON.parse(data);
+                    var isValidLogin = _.some(users.users, function (user) {
+                        return (user.uname === userattempt.uname && user.pass == userattempt.pass);
+                    });
+                    resolve(isValidLogin);
+                } else { // No users available
+                    resolve(false);
+                }
+            });
+        });
+    }
 }
 
 module.exports = AppController;
