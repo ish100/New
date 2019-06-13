@@ -1,5 +1,6 @@
 ENTITES = {
-	INVENTORY : "inventory"
+	INVENTORY : "inventory",
+    USERS: "test1"
 }
 
 class AppController {
@@ -30,6 +31,29 @@ class AppController {
     			(item.cost <= query["priceLimit"]["mostAmount"]))
     			return item;
     	}), undefined);
+    }
+
+    addIfNewUser(newuser) {
+        var THIS = this;
+        return new Promise(async (resolve, reject) => {
+            rClient.getKey(ENTITES.USERS).then((data) => {
+                if (data) {
+                    var users = JSON.parse(data);
+                    var isUserExists = _.some(users.users, function (user) {
+                        return user.uname === newuser.uname;
+                    });
+                    if (!isUserExists) {
+                        users.users.push(newuser);
+                        rClient.addKeyValue(ENTITES.USERS, JSON.stringify(users));
+                    }
+                    resolve(isUserExists);
+                } else {
+                    var users = {"users" : [newuser]};
+                    rClient.addKeyValue(ENTITES.USERS, JSON.stringify(users));
+                    resolve(false);
+                }
+            });
+        }); 
     }
 }
 
