@@ -3,49 +3,49 @@ var router = express.Router();
 
 /* GET user listing. */
 router.post('/register', async function(req, res, next) {
-	var body = req.body;
-	appController.addIfNewUser(body).then((isExists) => {
-		res.send({
-			status: isExists ? "DUPLICATE" : "AUTHED"
-		});
-	});
+    var body = req.body;
+    appController.addIfNewUser(body).then((isExists) => {
+        res.send({
+            status: isExists ? "DUPLICATE" : "AUTHED"
+        });
+    });
 });
 
 router.post('/isAuth', async function(req, res, next) {
-	var body = req.body;
-	appController.isUserAvailable(body).then((isUser) => {
-		res.send({
-			status: isUser ? "AUTHED" : "UNAUTHED"
-		});
-	});
+    var body = req.body;
+    appController.isUserAvailable(body).then((isUser) => {
+        res.send({
+            status: isUser ? "AUTHED" : "UNAUTHED"
+        });
+    });
 });
 
 router.post('/saveToFavourites', async function(req, res, next) {
-	var body = req.body;
-	if (!appController.currentUser) {
-		res.send({
-			status: "UNAUTHED"
-		});
-	} else {
-		appController.saveToFavourites(body).then((isAdded) => {
-			res.send({
-				status: isAdded
-			});
-		});
-	}
+    var body = req.body;
+    if (!appController.currentUser) {
+        res.send({
+            status: "UNAUTHED"
+        });
+    } else {
+        appController.saveToFavourites(body).then((isAdded) => {
+            res.send({
+                status: isAdded
+            });
+        });
+    }
 });
 
 router.get('/savedFavourites', async function(req, res, next) {
-	if (!appController.currentUser) {
-		res.send({
-			status:  "UNAUTHED"
-		});
-	} else {
-		res.send({
-			status: "AUTHED",
-			results: await appController.getFavourited()
-		});
-	}
+    if (!appController.currentUser) {
+        res.send({
+            status: "UNAUTHED"
+        });
+    } else {
+        res.send({
+            status: "AUTHED",
+            results: await appController.getFavourited()
+        });
+    }
 });
 
 
