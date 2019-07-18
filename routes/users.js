@@ -35,5 +35,18 @@ router.post('/saveToFavourites', async function(req, res, next) {
 	}
 });
 
+router.get('/savedFavourites', async function(req, res, next) {
+	if (!appController.currentUser) {
+		res.send({
+			status:  "UNAUTHED"
+		});
+	} else {
+		res.send({
+			status: "AUTHED",
+			results: await appController.getFavourited()
+		});
+	}
+});
+
 
 module.exports = router;

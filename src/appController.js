@@ -99,6 +99,16 @@ class AppController {
             }
         });
     }
+
+    async getFavourited() {
+        var THIS = this;
+        return _.without(_.map(this.inventory.destinations, function(item){
+            if (THIS.currentUser.favourites.includes(item["name"].toLowerCase())) {
+                item["favourited"] = true;
+                return item;
+            }
+        }), undefined);
+    }
 }
 
 module.exports = AppController;

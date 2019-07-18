@@ -4,6 +4,7 @@ var app = angular.module("myApp", [
     'homeController',
     'loginController',
     'registerController',
+    'favouritesController',
     'surveyController'
 ]);
 
@@ -33,6 +34,10 @@ app.config(['$routeProvider',
         when('/survey', {
             templateUrl: 'html/survey.html',
             controller: 'surveyCtrl'
+        }).
+        when('/favourites', {
+            templateUrl: 'html/favourites.html',
+            controller: 'favouritesCtrl'
         }).
         otherwise({
             redirectTo: '/home'
