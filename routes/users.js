@@ -20,5 +20,20 @@ router.post('/isAuth', async function(req, res, next) {
 	});
 });
 
+router.post('/saveToFavourites', async function(req, res, next) {
+	var body = req.body;
+	if (!appController.currentUser) {
+		res.send({
+			status: "UNAUTHED"
+		});
+	} else {
+		appController.saveToFavourites(body).then((isAdded) => {
+			res.send({
+				status: isAdded
+			});
+		});
+	}
+});
+
 
 module.exports = router;

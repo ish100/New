@@ -132,4 +132,18 @@ surveyController.controller('surveyCtrl', ['$scope', function($scope) {
 		Survey.SurveyNG.render("surveyElement", {model: survey});
 	}
 
+	window.saveToFavourites = function(optionName) {
+		var req_body = {
+    		location : optionName
+    	};
+		$.post("/users/saveToFavourites", req_body, function(data) {
+			if (data.status == "UNAUTHED")
+				window.alert("Please login to save to favourites.");
+			else if (data.status == true) 
+				window.alert(optionName + " has been added to favourites!");
+			else if (data.status == false) 
+				window.alert(optionName + " is already added in favourites.");
+		});
+	}
+
 }]);

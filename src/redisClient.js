@@ -19,6 +19,7 @@ const ENTITIES = {
 class RedisActions {
 
     async addKeyValue(key, value) {
+        console.log("storing " + value);
         await client.set(key,value);
     }
 

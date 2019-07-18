@@ -1,12 +1,15 @@
 ENTITES = {
 	INVENTORY : "inventory",
-    USERS: "test1"
+    USERS: "users"
 }
 
 class AppController {
 
-    init() {
 
+
+    init() {
+        this.currentUser = null;
+        this.allUsers = null;
     }
 
     constructor() {
@@ -23,13 +26,17 @@ class AppController {
     }
 
     async findDests(query) {
+        var THIS = this;
     	return _.without(_.map(this.inventory.destinations, function(item){
     		if ((_.includes(item["company"], query["company"].toLowerCase())) &&
     			(_.includes(item["season"], query["season"].toLowerCase())) &&
     			(_.includes(item["kind"], query["kind"].toLowerCase())) &&
     			(query["priceLimit"]["leastAmount"] <= item.cost) &&
-    			(item.cost <= query["priceLimit"]["mostAmount"]))
-    			return item;
+    			(item.cost <= query["priceLimit"]["mostAmount"])) {
+                item["favourited"] = (THIS.currentUser && THIS.currentUser.favourites.includes(item["name"].toLowerCase())) ? true : false;
+                return item;
+            }
+    			
     	}), undefined);
     }
 
@@ -37,6 +44,7 @@ class AppController {
         var THIS = this;
         return new Promise(async (resolve, reject) => {
             rClient.getKey(ENTITES.USERS).then((data) => {
+                newuser["favourites"] = [];
                 if (data) {
                     var users = JSON.parse(data);
                     var isUserExists = _.some(users.users, function (user) {
@@ -62,14 +70,33 @@ class AppController {
             rClient.getKey(ENTITES.USERS).then((data) => {
                 if (data) {
                     var users = JSON.parse(data);
-                    var isValidLogin = _.some(users.users, function (user) {
-                        return (user.uname === userattempt.uname && user.pass == userattempt.pass);
-                    });
-                    resolve(isValidLogin);
-                } else { // No users available
+                    for (var i=0; i<users.users.length ; i++) {
+                        var user = users.users[i];
+                        if (user.uname === userattempt.uname && user.pass == userattempt.pass) {
+                            THIS.currentUser = user;
+                            THIS.allUsers = users;
+                            resolve(true);
+                        }
+                    }
                     resolve(false);
-                }
+                } 
+                // No users available or failed login
+                resolve(false);
             });
+        });
+    }
+
+    saveToFavourites(location) {
+        var THIS = this;
+        return new Promise((resolve, reject) => {
+            var locationToAdd = location.location;
+            if (THIS.currentUser.favourites.includes(locationToAdd)) {
+                resolve(false);
+            } else {
+                THIS.currentUser["favourites"].push(locationToAdd);
+                rClient.addKeyValue(ENTITES.USERS, JSON.stringify(THIS.allUsers));
+                resolve(true);
+            }
         });
     }
 }
